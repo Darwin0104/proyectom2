@@ -159,3 +159,47 @@
     </script>
 </body>
 </html>
+
+$(document).ready(function() {
+    // Cuando el DOM está listo, ejecuta esta función
+
+    // Manejo de eventos para inputs y textareas
+    $(".contenedor-formularios").find("input, textarea").on("keyup blur focus", function(e) {
+        var $this = $(this), // Referencia al elemento actual
+            label = $this.prev("label"); // Selecciona la etiqueta anterior al input
+
+        if (e.type === "keyup") { // Si el evento es "keyup"
+            if ($this.val() === "") { // Si el input está vacío
+                label.removeClass("active highlight"); // Elimina las clases
+            } else {
+                label.addClass("active highlight"); // Agrega las clases
+            }
+        } else if (e.type === "blur") { // Si el evento es "blur" (cuando el input pierde foco)
+            if ($this.val() === "") {
+                label.removeClass("active highlight"); // Elimina las clases
+            } else {
+                label.removeClass("highlight"); // Solo elimina "highlight"
+            }
+        } else if (e.type === "focus") { // Si el evento es "focus" (cuando el input recibe foco)
+            if ($this.val() === "") {
+                label.removeClass("highlight"); // Si está vacío, elimina "highlight"
+            } else {
+                label.addClass("highlight"); // Si no está vacío, agrega "highlight"
+            }
+        }
+    });
+
+    // Manejo de clics en las pestañas
+    $(".tab a").on("click", function(e) {
+        e.preventDefault(); // Evita el comportamiento por defecto del enlace
+
+        $(this).parent().addClass("active"); // Agrega la clase "active" al padre del enlace
+        $(this).parent().siblings().removeClass("active"); // Elimina "active" de los hermanos
+
+        var target = $(this).attr("href"); // Obtiene el valor del atributo "href"
+
+        $(".contenido-tab > div").not(target).hide(); // Oculta todos los divs excepto el objetivo
+
+        $(target).fadeIn(600); // Muestra el div objetivo con una animación de desvanecimiento
+    });
+});
